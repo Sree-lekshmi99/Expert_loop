@@ -1,0 +1,12 @@
+PASS · Initial overview with zero approvals
+PASS · Edit, validate on three fixtures, approve, inspect revision history
+PASS · Approved-only SFT export
+PASS · Generate 48 pending variants
+PASS · Client-side task search
+PASS · Holdout inspector has no correction or approval actions
+PASS · Run dialog, request cap, paused-state UI
+PASS · Resume to 60 persisted outputs without rerunning committed results
+PASS · Task-level output inspector and prominent simulation label
+PASS · Mobile overview without horizontal page overflow
+PASS · No browser JavaScript errors
+11 browser checks passed (in-memory DOM + real FastAPI TestClient).

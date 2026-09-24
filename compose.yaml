@@ -1,0 +1,23 @@
+services:
+  expertloop:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      EXPERTLOOP_DATA_DIR: /app/state
+    volumes:
+      - expertloop_state:/app/state
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 96
+    mem_limit: 768m
+    restart: unless-stopped
+volumes:
+  expertloop_state:
