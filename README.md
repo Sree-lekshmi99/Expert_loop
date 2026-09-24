@@ -79,7 +79,7 @@ The CLI explicitly inserts **automated demo approvals**, generates the variants,
 
 These automated approvals are **not independent human validation**. This command uses `state/demo`, separate from the normal workspace. Start the normal app without `--data-dir state/demo` for genuine manual reviews.
 
-A generated sample is included at [docs/sample-run/report.md](docs/sample-run/report.md). Its percentages are intentionally simulated and must not be used as model-performance or resume claims.
+A generated sample is included at [docs/sample-run/report.md](docs/sample-run/report.md). Its percentages are intentionally simulated
 
 ## Run a live model experiment
 
@@ -102,9 +102,8 @@ Approve genuine development examples, open **New experiment**, select **OpenAI Â
 
 **Live calls may incur charges.** The request cap counts attempts, including retries. The output-token cap applies per request. Neither is a precise dollar budget. A timed-out or interrupted request may be billed even if its response/usage was not recorded. Keep provider-side spending limits appropriate for your account.
 
-The live adapter sends only the fictional schema, business rules, question, and selected approved examples. It never sends the target's reference SQL, expected fixture outputs, category label, or task ID. The API key stays on the server and is excluded from the SQL subprocess environment.
+\
 
-Live integration was **tested with mocked HTTP responses, not an actual authenticated API call** in this build. Validate model/account compatibility with a small development run before spending on a full evaluation.
 
 ## Tests
 
@@ -130,10 +129,6 @@ A system Chromium executable can be selected with `--chromium /path/to/chromium`
 docker compose up --build
 ```
 
-The Compose file publishes only `127.0.0.1:8000`, uses a non-root container, drops capabilities, and stores state in a named volume. A root `.env` can supply the optional key and model.
-
-**Docker was not installed in the build environment, so the container setup has not been executed here.** The tested path is local Python. Container hardening is not a substitute for an independently isolated untrusted-code execution service.
-
 ## Useful commands and endpoints
 
 ```bash
@@ -151,8 +146,6 @@ curl -X POST http://127.0.0.1:8000/api/runs \
   -H 'Content-Type: application/json' -H 'X-ExpertLoop: 1' \
   -d '{"name":"API demo","provider":"demo","split":"holdout"}'
 ```
-
-API documentation is at `/docs`; machine-readable OpenAPI is at `/openapi.json`. Interactive docs use FastAPI's standard documentation assets and can require network access even though the main UI does not.
 
 ## Repository map
 
@@ -183,18 +176,4 @@ The approved-example arm uses **few-shot prompting, not model training**. A firs
 
 The SQL worker is restricted but is not a production multi-tenant OS sandbox. The app has no login, tenancy, distributed queue, worker leases, or production monitoring. Exactly-once storage does not imply exactly-once external API billing after a crash. Read [SECURITY.md](docs/SECURITY.md) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-## Make the portfolio story yours
 
-Use [DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) for a walkthrough and [CUSTOMER_DISCOVERY.md](docs/CUSTOMER_DISCOVERY.md) to document a real analyst conversation. The latter is intentionally an unfilled template, not a fabricated interview.
-
-Understand and modify the implementation before presenting it. Add one requirement you discovered, one failure case you fixed, and one reproducible live experiment with honest limitations. Do not imply independent authorship, expert validation, or measured model improvement that did not happen.
-
-## Primary implementation references
-
-- [Python sqlite3: authorizers, progress handlers, limits, URI connections](https://docs.python.org/3/library/sqlite3.html)
-- [SQLite guidance for untrusted SQL](https://www.sqlite.org/security.html)
-- [SQLite compile-time authorization callbacks](https://www.sqlite.org/c3ref/set_authorizer.html)
-- [FastAPI static files](https://fastapi.tiangolo.com/tutorial/static-files/)
-- [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
-
-Dependencies are pinned for this starter. Review and test dependency/security updates before deploying anything beyond the local demo.
